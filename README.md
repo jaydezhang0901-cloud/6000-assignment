@@ -158,17 +158,6 @@ Output Layer (5 classes - Softmax)
 
 ---
 
-## 📚 Course Information
-
-| Item | Details |
-|------|---------|
-| Course | CA6000 - Applied AI Programming |
-| Institution | Nanyang Technological University |
-| Semester | 25S2 (2025) |
-| Student | ZHANG XINYING |
-
----
-
 ## 🤝 Acknowledgments
 
 - Dataset: [EX3exp/Kpop-lyric-datasets](https://github.com/EX3exp/Kpop-lyric-datasets)
