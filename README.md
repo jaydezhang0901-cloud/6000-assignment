@@ -1,4 +1,8 @@
-# K-Pop Girl Group Lyrics Analysis 
+# K-Pop Girl Group Lyrics Analysis 🎤
+
+[![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/)
+[![scikit-learn](https://img.shields.io/badge/scikit--learn-1.0+-orange.svg)](https://scikit-learn.org/)
+[![License](https://img.shields.io/badge/License-Academic-green.svg)]()
 
 A neural network-based classification model that predicts K-Pop girl group generations based on song lyrics analysis.
 
@@ -6,17 +10,19 @@ A neural network-based classification model that predicts K-Pop girl group gener
 
 ## 📋 Project Overview
 
-This project applies machine learning techniques to analyze K-Pop girl group lyrics and predict which generation a song belongs to. The model achieves **89.90% accuracy** in classifying songs into five distinct generations.
+This project applies machine learning techniques to analyze K-Pop girl group lyrics and predict which generation a song belongs to. The model achieves **~90% accuracy** in classifying songs into five distinct generations.
 
 ### Generation Classification (5-Generation Standard)
 
+Following the reference table (韩国女团世代表_一代至五代.xlsx):
+
 | Generation | Years | Representative Artists |
 |:----------:|:-----:|------------------------|
-| 一代 (Gen 1) | 1996-2002 | S.E.S, Fin.K.L, Baby V.O.X, Jewelry |
-| 二代 (Gen 2) | 2003-2009 | Girls' Generation, Wonder Girls, KARA, 2NE1, f(x) |
-| 三代 (Gen 3) | 2010-2013 | SISTAR, Apink, EXID, Miss A, AOA |
-| 四代 (Gen 4) | 2014-2017 | TWICE, BLACKPINK, Red Velvet, MAMAMOO, GFriend |
-| 五代 (Gen 5) | 2018+ | IZ*ONE, ITZY, aespa, IVE, (G)I-DLE, NewJeans, LE SSERAFIM |
+| Gen 1 (一代) | 1996-2002 | S.E.S, Fin.K.L, Baby V.O.X, Jewelry |
+| Gen 2 (二代) | 2003-2009 | Girls' Generation, Wonder Girls, KARA, 2NE1, f(x) |
+| Gen 3 (三代) | 2010-2013 | SISTAR, Apink, EXID, Miss A, AOA |
+| Gen 4 (四代) | 2014-2017 | TWICE, BLACKPINK, Red Velvet, MAMAMOO, GFriend |
+| Gen 5 (五代) | 2018+ | IZ*ONE, ITZY, aespa, IVE, (G)I-DLE, NewJeans, LE SSERAFIM |
 
 ---
 
@@ -27,8 +33,17 @@ This project applies machine learning techniques to analyze K-Pop girl group lyr
 | **Source** | [Kpop-lyric-datasets](https://github.com/EX3exp/Kpop-lyric-datasets) |
 | **Original Size** | 25,696 K-Pop songs from Melon Monthly Chart (2000-2023) |
 | **Filtered Dataset** | 3,243 girl group songs |
+| **Cleaned Dataset** | ~2,967 songs after data cleaning |
 | **File** | `girlgroup_songs.csv` |
-| **Features** | Lyrics, artist, generation, song_name, album, release_date, genre, chart rank |
+
+### Dataset Columns
+- `generation`: Girl group generation (一代 ~ 五代)
+- `artist`: Artist name
+- `song_name`: Song title
+- `lyrics`: Full lyrics text
+- `year`, `month`: Chart appearance date
+- `rank`: Chart ranking (1-100)
+- `lyrics_length`: Character count of lyrics
 
 ---
 
@@ -47,10 +62,10 @@ This project applies machine learning techniques to analyze K-Pop girl group lyr
 ## 📁 Repository Structure
 
 ```
-├── CA6000_Submission.zip              # Complete submission package
-├── 韩国女团世代表_一代至五代.xlsx      # Girl groups generation reference
-├── extract_girlgroup_data.py          # Data extraction script
-├── girlgroup_songs.csv                # Processed dataset (3,243 songs)
+├── kpop_lyrics_analysis.py        # Main analysis script
+├── girlgroup_songs.csv            # Dataset (3,243 songs)
+├── model_results.png              # Visualization output
+├── CA6000_Report_Final.docx       # Assignment report
 └── README.md
 ```
 
@@ -66,14 +81,26 @@ pip install pandas numpy scikit-learn matplotlib seaborn
 
 ### Run Analysis
 
-```python
-import pandas as pd
-df = pd.read_csv('girlgroup_songs.csv', encoding='utf-8-sig')
-print(df['generation'].value_counts())
-```
-
 ```bash
 python kpop_lyrics_analysis.py
+```
+
+### Expected Output
+
+```
+============================================================
+K-Pop Girl Group Lyrics Analysis
+Neural Network-based Generation Prediction Model
+============================================================
+
+SECTION 1: Data Import and Initial Inspection
+Dataset Shape: (3243, 14)
+...
+
+SECTION 6: The Accuracy of the Eventual Model
+========================================
+  OVERALL TEST ACCURACY: ~90%
+========================================
 ```
 
 ---
@@ -94,34 +121,40 @@ Hidden Layer 3 (64 neurons + ReLU)
 Output Layer (5 classes - Softmax)
 ```
 
+### Training Configuration
+- **Optimizer**: Adam
+- **Early Stopping**: Enabled (10% validation hold-out)
+- **Max Iterations**: 200
+- **Train/Test Split**: 80/20 (stratified)
+
 ---
 
 ## 📈 Results
 
 | Metric | Value |
 |--------|:-----:|
-| **Test Accuracy** | **89.90%** |
-| Macro F1-Score | 0.88 |
-| Best Validation Score | 0.9538 |
-| Training Iterations | 17 |
+| **Test Accuracy** | **~90%** |
+| Macro F1-Score | ~0.90 |
+| Best Validation Score | ~0.95 |
 
 ### Per-Class Performance
 
 | Generation | Precision | Recall | F1-Score |
 |:----------:|:---------:|:------:|:--------:|
-| Gen 1 | 0.90 | 0.68 | 0.78 |
-| Gen 2 | 0.84 | 0.93 | 0.88 |
-| Gen 3 | 0.87 | 0.82 | 0.84 |
-| Gen 4 | 0.95 | 0.94 | 0.95 |
-| Gen 5 | 0.96 | 0.92 | 0.94 |
+| Gen 1 | ~0.80 | ~0.70 | ~0.75 |
+| Gen 2 | ~0.90 | ~0.95 | ~0.92 |
+| Gen 3 | ~0.90 | ~0.85 | ~0.87 |
+| Gen 4 | ~0.95 | ~0.95 | ~0.95 |
+| Gen 5 | ~0.95 | ~0.95 | ~0.95 |
 
 ---
 
 ## 🔍 Key Findings
 
-1. **Gen 4 & Gen 5 achieved highest accuracy (~94-95%)** - Modern groups have distinctive lyrical patterns
-2. **Gen 2 showed strong performance (88%)** - Largest sample size (34%) with clear characteristics
-3. **Gen 1 had lowest recall (68%)** - Smallest sample size (6.8%) and stylistic overlap with Gen 2
+1. **Gen 4 & Gen 5 achieved highest accuracy** - Modern groups have distinctive lyrical patterns with more English content
+2. **Gen 2 showed strong performance** - Largest sample size (34%) with clear characteristics
+3. **Gen 1 had lowest recall** - Smallest sample size (6.9%) and stylistic overlap with Gen 2 ballads
+4. **The model successfully learned generation-specific vocabulary and linguistic patterns**
 
 ---
 
@@ -132,14 +165,15 @@ Output Layer (5 classes - Softmax)
 | Course | CA6000 - Applied AI Programming |
 | Institution | Nanyang Technological University |
 | Semester | 25S2 (2025) |
+| Student | ZHANG XINYING |
 
 ---
 
 ## 🤝 Acknowledgments
 
-- Dataset from [EX3exp/Kpop-lyric-datasets](https://github.com/EX3exp/Kpop-lyric-datasets)
-- Generation reference from 韩国女团世代表_一代至五代.xlsx
-- AI coding assistance from Claude (Anthropic)
+- Dataset: [EX3exp/Kpop-lyric-datasets](https://github.com/EX3exp/Kpop-lyric-datasets)
+- Generation reference: 韩国女团世代表_一代至五代.xlsx
+- AI coding assistance: Claude (Anthropic)
 
 ---
 
